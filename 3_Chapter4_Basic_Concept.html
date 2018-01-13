@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Variable_Scope_Memory</title>
+	<script type="text/javascript">
+		var num1=5;
+		var num2=num1;
+
+		var obj1=new Object();
+		obj1.name="AAA";
+		var obj2=obj1;//复制到obj2
+		document.write(obj2.name);//obj2可以同时访问堆中的Object()对象
+
+		function setNum(obj){
+			obj.name="AAA";
+		}
+		var person=new Object();
+		setNum(person);
+		document.write(person.name);
+
+		var obj3=new Object();
+		document.write(obj3 instanceof Object);
+
+		var color="red";
+		function change(){
+			var color="blue";
+			return color;
+		}
+		document.write(change());
+
+		color=null;
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
