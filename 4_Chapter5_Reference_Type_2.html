@@ -3,6 +3,78 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Reference_Type_2</title>
+	<script type="text/javascript">
+		function a(x, y){
+			console.log(x+y);
+		}
+		var b=a;
+		b(1,2);//2
+
+		function outer(){
+			inner();
+		}
+		function inner(){
+			alert(arguments.callee.caller);//similar to inner.caller。 to call the caller of function inner().
+		}
+
+		function AA(sum){
+			return sum;
+		}//AA.length=1;
+		function BB(a,b){
+			return a+b;
+		}//BB.length=2
+		function CC(){
+			return null;
+		}//CC.length=0;
+
+		function appA(num1){
+			return num1*10;
+		}
+		function appB(ele1,ele2){
+			return appA.apply(this, arguments)//arguments is the input element of appA, has nothing to do with appB.
+		}
+
+		function appC(num1){
+			return appA.call(this, num1)//形参必须一致了。
+		};
+		console.log(appB(1));//10
+		console.log(appC(2));//20
+
+		window.color="red";
+		var obj={color:"blue"};
+		function getColor(){
+			console.log(this.color);
+		}
+		obj.objColor=getColor;
+		obj.objColor();//blue
+
+		getColor.call(window);//red
+		getColor.call(obj);//blue
+
+		window.name="X";
+		var o={name:"Y"};
+		function A(){
+			console.log(this.name);
+		}
+		var B=A.bind(o);
+		B();//Y;
+		A();//X;
+
+		var s1="text";//创建一个基本包装类型的对象S1
+		var s2=s1.substring(2);
+		console.log(s2);//xt
+		console.log(s1);//text
+		s1.color='red';//这里s1仍存在，但是创建s1.color这个对象之后，再进入下一行，这个对象就会被销毁
+		console.log	(s1.color);//undefined
+		console.log(s1);//text
+
+		var s3=new String("another text");//用new来创建一个引用类型实例。
+		var s4=s3.substring	(2);
+		s3.color='blue';//引用类型实例具有整个作用域的生存期。
+		console.log(s3.color);//blue
+		console.log(s4);//other text
+		
+	</script>
 </head>
 <body>
 	
