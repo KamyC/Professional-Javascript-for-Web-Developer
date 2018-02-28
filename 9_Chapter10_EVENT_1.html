@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Event</title>
+	<script type="text/javascript">
+		window.onclick=function(){
+			var button=document.getElementById('myButton');
+			button.onclick=function(){
+			alert("clicked");
+			}
+			//DOM2级事件
+			var button_2=document.getElementById('myButton_2');
+			button_2.addEventListener('click',function(){
+				alert("addEventListener"),false})
+			//事件对象
+			var btn=document.getElementById('btn');
+			var handler=function(event){
+				switch(event.type){
+					case "click":
+					alert('click');
+					break;
+
+					case "mouseover":
+					event.target.style.backgroundColor='red';
+					break;
+
+					case "mouseout":
+					event.target.style.backgroundColor='';
+					break;
+				}
+			}
+			btn.onclick=handler;
+			btn.onmouseover=handler;
+			btn.onmouseout=handler;
+			//stopPropagation
+			var btn_2=document.getElementById('btn_2');
+			btn_2.onclick=function(event){
+				alert('stop here');
+				event.stopPropagation();
+			};
+			document.body.onclick=function(event){
+				alert("not show");
+			}
+
+		}	
+		
+	</script>
+</head>
+<body>
+	<div>Event Bubble</div>
+	<input type="button" name="" value="click">
+	<!--HTML事件处理程序-->
+	<input type="button" name="" value="click" onclick="alert(value)">
+	<!--JS指定事件处理-->
+	<input type="button" name="button" id="myButton" value="click">
+	<!--DOM2级事件-->
+	<input type="button" name="" id="myButton_2" value='click'>
+	<div>
+		<button id="btn">Click or Mouseover</button>
+	</div>
+	<div>
+		<button id="btn_2">Stop Propagation</button>
+	</div>
+</body>
+</html>
