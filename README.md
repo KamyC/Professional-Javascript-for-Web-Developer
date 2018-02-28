@@ -1,4 +1,4 @@
-#Learning codes from Book *Professional-Javascript-for-Web-Developer* 
+Learning codes from Book *Professional-Javascript-for-Web-Developer* 
 =
 I have tried to read through the whole book by writing the codes displayed in this book.
 
