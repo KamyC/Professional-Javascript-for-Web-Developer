@@ -1,5 +1,7 @@
-Learning codes from *Professional-Javascript-for-Web-Developer* 
+*Professional-Javascript-for-Web-Developer* 
 =
+My Learning Process
+-
 I have tried to read through the whole book by writing the codes displayed in each chapter
 
 Along with the codes, I keep writing the learning diary in Chinese.
