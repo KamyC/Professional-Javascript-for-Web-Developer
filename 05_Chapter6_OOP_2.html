@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prototype Chain</title>
+	<script type="text/javascript">
+		function a(){
+			this.aProperty=true;
+		}
+		function b(){
+			this.bProperty=false;
+		}
+		a.prototype.getAvalue=function(){
+			return this.aProperty;
+		}
+
+
+		a.prototype.myFunction=function(){
+			return "A_function";
+		}
+		b.prototype.myFunction=function(){
+			return "B_function";
+		}
+		//原型中，覆写toString
+		a.prototype.toString=function(){
+			return "over-write A_toString in prototype";
+		}
+		b.prototype.toString=function(){
+			return "over-write B_toString in prototyp";
+		}
+		//本身属性中，覆写toString
+		a.toString=function(){
+			return "over-write A_toString";
+		}
+		b.toString=function(){
+			return "over-write B_toString";
+		}
+
+		b.prototype=new a();//将b的原型指向a的实例
+		var instance=new b();
+		console.log(instance.getAvalue());//true, 返回a的属性
+		// console.log(instance.getBvalue());
+		console.log(instance.myFunction());//A_function
+		//尝试调用一下toString 看返回什么
+		console.log(instance.toString())//over-write A_toString in prototype
+		//覆写父类中的getAvalue
+		b.prototype.getAvalue=function(){
+			return "over-write getAvalue";
+		}
+		console.log(instance.getAvalue());//over-write getAvalue
+		console.log(new a().getAvalue());//true
+		//如何调用getBvalue呢？
+		b.prototype.getBvalue=function(){
+			return this.bProperty;
+		}
+		console.log(instance.getBvalue());
+		//weakness of prototype chain
+		function A(){
+			this.color=['red','yellow','blue'];
+		}
+		function B(){
+
+		}
+		B.prototype=new A()//继承
+		var f1=new B();
+		f1.color.push('brown');
+		console.log(f1.color);//["red", "yellow", "blue", "brown"]
+		var f2=new B();
+		console.log(f2.color);// ["red", "yellow", "blue", "brown"]
+		//solution 1
+		function A_1(){
+			this.color=['red','yellow','blue'];
+		}
+		function B_1(){
+			A_1.call(this);//伪继承，借用call来调用父类构造函数
+		}
+		//B_1.prototype=new A_1()//这个继承可以不用写了
+		var f_1=new B_1();
+		f_1.color.push('brown');
+		console.log(f1.color);//["red", "yellow", "blue", "brown"]
+		var f_2=new B_1();
+		console.log(f_2.color);//["red", "yellow", "blue"]
+		//利用构造函数向父类传参
+		function superType(name){
+			this.name=name;
+		}
+		function subType(){
+			superType.call(this,"Jonathan");
+			this.age=10;
+		}
+		var instance=new subType();
+		console.log(instance.name);//Jonathan
+		//组合继承
+		function flower_A(name){
+			this.colors=['red','yellow'];
+			this.name=name
+		}
+		flower_A.prototype.sayName=function(){
+			return this.name;
+		}
+		function flower_B(name,age){
+			flower_A.call(this,"Jasmine");
+			this.age=age;
+		}
+		flower_B.prototype=new flower_A();
+		flower_B.prototype.constructor=flower_B;
+		flower_B.prototype.sayAge=function(){
+			return this.age;
+		}
+		var instace=new flower_B("Violet",20);
+		instace.colors.push('black');
+		console.log(instace.colors)//["red", "yellow", "black"]
+		console.log(instace.sayAge());20//
+		var instace_2=new flower_B("Rose",18);
+		console.log(instace_2.colors)//["red", "yellow"]
+		console.log(instace_2.age)//18
+		//原型式继承，但并没什么卵用
+		function object(o){
+			function f(){};//临时的构造函数f
+			f.prototype=o;//传入对象为构造函数的原型
+			return new f();//返回这个构造函数的实例
+		}
+		//该如何使用呢？
+		var person={
+			name:'Jonathan',
+			age:20,
+			friends:['Emily',"Jing"]
+		}
+		//传统的创建对象
+		var somebody=new object(person);
+		somebody.name="Grey";
+		somebody.friends.push('Van');
+		//用ECAMScript5的方法
+		var somebody2=Object.create(person,{
+			name:{
+				value:"Alice"
+			}
+		})
+
+		console.log(somebody.friends);//["Emily", "Jing", "Van", "Mike"]
+		console.log(somebody2.friends);//["Emily", "Jing", "Van", "Mike"]
+		console.log(somebody2.name)
+		//寄生继承模式
+		function createAnother(original){
+			var clone=new object(original);
+			clone.sayHi=function(){
+				console.log("hi");
+			}
+			return clone;
+		}
+		var createPerson={
+			name:"Cage",
+			friends:['Emily',"Jing"]
+		}
+		var somebody3=new createAnother(createPerson);
+		somebody3.sayHi();//hi
+		//寄生组合继承
+		function AA(name){
+			this.name=name,
+			this.colors=['red','yellow','brown']
+		}
+		AA.prototype.sayName=function(){
+			console.log(this.name)
+		}
+
+		function BB(name,age){
+			AA.call(this,name)
+			this.age=age;
+		}
+		function inheritePrototype(superType, subType){
+			var proto=object(superType.prototype);
+			proto.constructor=subType;
+			subType.prototype=proto
+		}
+		inheritePrototype(AA,BB);
+		BB.prototype.sayAge=function(){
+			console.log(this.age);
+		}
+		var instace_3=new BB("Bill",20);
+		instace_3.sayAge();//20
+
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

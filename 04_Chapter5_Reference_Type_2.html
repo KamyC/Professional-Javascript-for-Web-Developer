@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Reference_Type_2</title>
+	<script type="text/javascript">
+		function a(x, y){
+			console.log(x+y);
+		}
+		var b=a;
+		b(1,2);//2
+
+		function outer(){
+			inner();
+		}
+		function inner(){
+			alert(arguments.callee.caller);//similar to inner.caller。 to call the caller of function inner().
+		}
+
+		function AA(sum){
+			return sum;
+		}//AA.length=1;
+		function BB(a,b){
+			return a+b;
+		}//BB.length=2
+		function CC(){
+			return null;
+		}//CC.length=0;
+
+		function appA(num1){
+			return num1*10;
+		}
+		function appB(ele1,ele2){
+			return appA.apply(this, arguments)//arguments is the input element of appA, has nothing to do with appB.
+		}
+
+		function appC(num1){
+			return appA.call(this, num1)//形参必须一致了。
+		};
+		console.log(appB(1));//10
+		console.log(appC(2));//20
+
+		window.color="red";
+		var obj={color:"blue"};
+		function getColor(){
+			console.log(this.color);
+		}
+		obj.objColor=getColor;
+		obj.objColor();//blue
+
+		getColor.call(window);//red
+		getColor.call(obj);//blue
+
+		window.name="X";
+		var o={name:"Y"};
+		function A(){
+			console.log(this.name);
+		}
+		var B=A.bind(o);
+		B();//Y;
+		A();//X;
+
+		var s1="text";//创建一个基本包装类型的对象S1
+		var s2=s1.substring(2);
+		console.log(s2);//xt
+		console.log(s1);//text
+		s1.color='red';//这里s1仍存在，但是创建s1.color这个对象之后，再进入下一行，这个对象就会被销毁
+		console.log	(s1.color);//undefined
+		console.log(s1);//text
+
+		var s3=new String("another text");//用new来创建一个引用类型实例。
+		var s4=s3.substring	(2);
+		s3.color='blue';//引用类型实例具有整个作用域的生存期。
+		console.log(s3.color);//blue
+		console.log(s4);//other text
+		
+		var bool_1=new Boolean(false);
+		var test_1=bool_1&&true;
+		console.log(test_1);//true;
+
+		var bool_2=false;
+		var test_2=bool_2&&true;
+		console.log(test_2);//false
+
+		var num_1=new Number(10);
+		console.log(num_1.toString(2));//convert it into binary scale： 1010
+		console.log(num_1.toFixed(3));//decimal point 10.000
+
+		var str=new String("helloworld");
+		console.log(str.length);//10
+		//字符方法：
+		console.log(str.charAt(1));//显示下标为1的字符：e
+		console.log(str.charCodeAt(2))//显示下标为2的字符编码：108
+		console.log(str[3]);//直接访问下标为3的字符：l;
+		//字符串操作方法(不修改源对象）：
+		console.log(str.concat("!"))//helloworld! 
+		console.log(str.substring(1,2));//e, start from index 1 to index 2
+		console.log(str.substr(1,2));//el, start from index 1 to next two elements
+		console.log(str.slice(1,2));//e, e, start from index 1 to index 2
+
+		console.log(str.substring(-2,2));//he， start from index 0 to index 2
+		console.log(str.substr(-2,2));//ld, start from index 10-2 to next two elements. 
+		console.log(str.substr(-2,-2));//empty, start from index 10-2 to next 0 elemets;
+		console.log(str.slice(-2,9));//l,start from index 10-2 to 9
+
+		//字符串位置方法：
+		console.log(str.indexOf("l"))//2
+		console.log(str.lastIndexOf("l"))//8
+		//trim方法：
+		var str_2=new String("  Hello World  ");
+		console.log(str_2.trim());//Hello World
+		//大小写转换
+		console.log(str.toUpperCase());//HELLOWORLD
+		console.log(str.toLowerCase());//helloworld
+		//字符串模式匹配，会在正则里面专门讲到。
+		var elem="eval"
+		eval("console.log(elem)")//eval
+
+		var arr=[1,2,3,4,5];
+		console.log(Math.max.apply(Math,arr));//5
+		console.log(Math.min.apply(Math,arr));//1
+		console.log(Math.floor(3.14));//3
+		console.log(Math.ceil(3.14));//4
+		console.log(Math.round(3.14));//3
+		console.log(Math.random())//a random decimal number between 0 and 1
+		
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

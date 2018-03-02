@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Extend</title>
+	<script type="text/javascript">
+		//selector API
+		window.onload=function(){
+			var body=document.querySelector('body');
+			console.log(body.nodeName);
+
+			//classList 修改类名
+			var div=document.getElementById("div");
+			div.classList.remove("A");
+			console.log(div.className);//B C
+			//焦点管理
+			var button=document.getElementById('myButton');
+			button.focus();//将焦点置于button元素
+			alert(document.activeElement==button);//true
+			//innerHTML调用
+			var div_2=document.getElementById('div_2');
+			console.log(div_2.innerHTML);//返回的是HTML格式
+			console.log(div_2.innerText);
+			//scrollIntoView方法
+			button.onclick=function(){
+				document.getElementById('jumpHere').scrollIntoView(true);
+			}
+		}
+
+	</script>
+</head>
+<body>
+	<div class="A B C" id="div">
+		<button id='myButton'>CLICK TO JUMP</button>
+	</div>
+	<div id="div_2">
+		<li>LINE 1</li>
+		<li>LINE 2</li>
+		<li>LINE 3</li>
+		<li>LINE 4</li>
+	</div>
+	<div>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li>LINE </li>
+		<li id="jumpHere">You will jump here </li>
+	</div>
+</body>
+</html>

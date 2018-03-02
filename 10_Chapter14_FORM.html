@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>FORM</title>
+</head>
+<script type="text/javascript">
+	var EventUtil={
+			addHandler:function(element, type, handler){
+				if(element.addEventListener){
+					element.addEventListener(type, handler,false);
+				}
+				else if(element.attachEvent){
+					element.attachEvent("on"+type,handler);
+				}
+				else {
+					element["on"+type]=handler;
+				}
+			},
+			removeHandler:function(element, type, handler){
+				if(element.removeEventListener){
+					element.removeEventListener(type, handler,false);
+				}
+				else if(eelement.detachEvent){
+					element.detachEvent("on"+type,handler);
+				}
+				else {
+					element["on"+type]=null;
+				}
+			},
+			getEvent:function(event){
+				return event?event:window.event;
+			},
+			getTarget:function(event){
+				return event.target||event.srcElement;
+			},
+			preventDefault:function(event){
+				if(event.preventDefault){
+					event.preventDefault()
+				}
+				else{
+					event.returnValue=false;
+				}
+			},
+		};
+	window.onload=function(){
+		var form=document.forms[0];
+		console.log(form.name)//textForm, name是自定义的名字
+		console.log(form.elements[0].nodeName);//input, nodeName是标签名
+		//表单属性
+		var form=document.getElementById('field');
+		var field=form.elements[0]//field调用第一个input
+		field.value="another value";
+		console.log(field.form)//form;
+		field.focus()//焦点设置到当前字段
+		field.disabled=true;//禁用当前字段
+		//避免多次提交表单
+		EventUtil.addHandler(form,"submit",function(){
+			event=EventUtil.getEvent(event);
+			var target=EventUtil.getTarget(event);
+
+			var btn=target.element["submit-button"];
+			btn.disabled=true;
+		})
+		//输出选择到的字符串
+		var textbox=document.getElementById('textbox');
+		console.log(textbox.value);
+		textbox.onselect=function(){
+			console.log(textbox.value.substring(textbox.selectionStart,textbox.selectionEnd))
+		}
+		//选择框
+		var formBox=document.getElementById('selectForm');
+		var firstSelect=formBox.elements[0];
+		console.log(firstSelect.options[0].text);//choice 1
+		console.log(firstSelect.options[0].value);//firstChoice
+		//firstSelect具有一个selectedIndex属性，返回选择项的下标
+		var selectedOption=firstSelect.options[firstSelect.selectedIndex];
+		console.log(selectedOption.text)//choice 1
+		//动态的添加选项
+		var newOption=new Option("ChoiceNull","optionValue")
+		firstSelect.add(newOption,undefined);
+		//移除选项
+		firstSelect.remove(3);//移除新的选项
+		//添加富文本区域
+		var div=document.getElementById('richedit');
+		var btn=document.getElementById('buttons');
+		//添加控制按钮
+		EventUtil.addHandler(btn,'click',function(){
+			event=EventUtil.getEvent(event);
+			var target=EventUtil.getTarget(event);
+			switch(target.id){
+				case "btn1":
+				richedit.contentEditable=true;
+				break;
+				case "btn2":
+				richedit.contentEditable=false;
+				break;
+				case "justifycenter":
+				document.execCommand('justifyCenter');
+				break;
+				case "justifyleft":
+				document.execCommand('justifyLeft');
+				break;
+				case "italic":
+				document.execCommand("italic",false,null);
+			}
+		});
+		//为富文本编辑器中被选择的文本添加黄色的背景
+		var selected=document.getSelection();
+		var selectText=selected.toString();
+		var range=selected.getRangeAt(0);
+		var span=document.createElement('span');
+		span.style.backgroundColor="yellow";
+		range.surroundContents(span);
+
+	}	
+</script>
+<body>
+	<form name="textForm" value="aaa">
+		<input type="text" name="text_1" >
+		<input type="text" name="text_2">
+	</form>
+	<form name="submitForm">
+		<input type="submit" name="">
+	</form>
+	<form name="radioForm">
+		<input type="radio" name="">
+	</form>
+	<!-- 提交表单 -->
+	<form>
+		<input type="image" name="">
+		<input type="submit" name="">
+		<button type="submit"></button>
+	</form>
+	<!-- 重置表单 -->
+	<form>
+		<input type="text" name="">
+		<input type="reset" name="">
+	</form>
+	<!-- 表单属性 -->
+	<form id="field">
+		<input type="text" name="">
+		<input type="button" name="">
+		<input type="radio" name="">
+	</form>
+	<!-- selectRange -->
+	<form>
+		<textarea rows="10" cols="10" id="textbox">Hello World!</textarea>
+	</form>
+	<!-- 选择框 -->
+	<form id='selectForm'>
+		<select id="select_A">
+			<option value="firstChoice">Choice 1</option>
+			<option>Choice 2</option>
+			<option>Choice 3</option>
+		</select>
+		<select id="select_B">
+			<option>Choice 5</option>
+			<option>Choice 6</option>
+		</select>
+	</form>
+	<!-- 富文本 -->
+	<div id="richedit" style="height: 100px;width:100px;border: 1px solid black" ></div>
+	<div id="buttons">
+		<button id="btn1" >打开编辑</button>
+		<button id="btn2" >关闭编辑</button><br />
+		<button id='justifycenter'>居中</button>
+		<button id='justifyleft'>左对齐</button><br />
+		<button id="italic">斜体</button>
+	</div>
+	
+</body>
+</html>

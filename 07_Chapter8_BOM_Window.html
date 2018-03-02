@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>BOM</title>
+	<script type="text/javascript">
+		var age=10;
+		window.color="red";
+		delete window.age;
+		delete window.color;
+		console.log(window.age);//10
+		console.log(window.color);//undefined
+		console.log(window.innerWidth);
+		var win=window.open("http://www.wrox.com/","wroxWindow",
+"height=400,width=400,top=10,left=10,resizable=yes");
+		if(win==null){
+			alert("blocked")
+		};
+		//间歇和延时调用
+		var timeoutId=setTimeout(function(){//
+			alert("setTimeout"),1000
+		})
+		clearTimeout(timeoutId);
+		//prompt
+		var res=prompt("what is your name?");
+		if(res!==null){
+			console.log("Hello "+res);
+		}
+		var print=window.print("aaa");
+		console.log(find);
+	</script>
+</head>
+<frameset rows="100,*">
+	<frame src="frame.htm" name="topFrame">
+	<frameset cols="50%,50%">
+		<frame src="anotherFrame.htm" name='leftFrame'></frame>
+
+		<frame src="yetanotherFrame.htm" name='rightFrame'></frame>
+	</frameset>
+</frameset>
+<body>
+	
+</body>
+</html>

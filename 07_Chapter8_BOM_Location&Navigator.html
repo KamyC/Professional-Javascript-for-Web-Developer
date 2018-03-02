@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Location</title>
+	<script type="text/javascript">
+		//location.assign("http://www.wrox.com");
+		// location.href="http://www.baidu.com";
+		// window.location="http://www.baidu.com"
+		//check the navigator if it has the specified plugins except the IE
+
+		function hasPlugin(checkName){
+			checkName=checkName.toLowerCase();
+			for(var i=0;i!=navigator.plugins.length;i++){
+				if(navigator.plugins[i].name.toLowerCase().indexOf(checkName)>-1){
+					return true;
+				}
+			}
+			return false;
+		}
+		// alert(hasPlugin('flash'));
+
+		function hasIePlugin(checkName){
+			try{
+				new ActiveXObject(checkName);
+				return true;
+			}
+			catch(ex){
+				return false;
+			}
+		}
+
+		// A general way to detect the certain plugin
+		function hasFlash(){
+			var result=hasPlugin('flash');
+			if(!result){
+				result=hasIePlugin('ShockWaveFlash.ShockWaveFlash')
+			}
+			return result;
+		}
+		// alert(hasFlash());
+		function goBack(){
+			history.go(-1);
+		}
+	
+	</script>
+</head>
+<body>
+	<input type="button" value="click" onclick="goBack()">
+
+</body>
+</html>
