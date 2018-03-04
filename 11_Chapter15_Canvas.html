@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas</title>
+	<script type="text/javascript">
+		window.onload=function(){
+			var drawing=document.getElementById('drawing');
+			if(drawing.getContext){
+				var context=drawing.getContext("2d");
+
+				//阴影shadow
+				context.shadowOffsetX=5;
+				context.shadowOffsetY=5;
+				context.shadowColor="#645F5F";
+				context.shadowBlur=4;
+				//绘制一个矩形，蓝色的
+				context.fillStyle="#0000ff";
+				context.fillRect(10,10,50,50);
+				//再绘制一个矩形，透明蓝色
+				context.fillStyle="rgba(0,0,225,0.5)";
+				context.fillRect(30,30,50,50);
+				//扣掉一块区域
+				context.clearRect(40,40,10,10);
+				//绘制时钟图形
+				context.beginPath();//开始绘制
+				context.arc(100,100,99,0,2*Math.PI,false);//画个外圈
+				context.moveTo(195,100);//把路径移到195，100位置为下次绘制做准备
+				context.arc(100,100,95,0,2*Math.PI,false);//画个内圈
+				context.moveTo(100,100)//为绘制指针做准备
+				context.lineTo(100,15)//画个分针
+				context.moveTo(100,100)//移回去
+				context.lineTo(35,100)//画个时针
+				context.stroke()//描边
+				//绘制文本
+				context.fillStyle="#161515"
+				context.font="10px bold Arial Black";
+				context.textAlign="center";//这里对其的方法
+				context.textBaseLine="middle";
+				context.fillText("12",100,15)
+				//渐变
+				// var gradient=context.createLinearGradient(30,30,70,70);
+				var gradient=context.createRadialGradient(55, 55, 10, 55, 55, 30);//起点的圆心和半径，终点的圆心和半径
+				gradient.addColorStop(0,"white");
+				gradient.addColorStop(1,"black");
+				context.fillStyle=gradient;
+
+			}
+
+		}
+
+	</script>
+</head>
+<body>
+	<canvas id='drawing' width="200" height="200" style="border:1px solid #000000">Drawing Something</canvas>
+</body>
+</html>
